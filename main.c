@@ -1,12 +1,13 @@
-#include "merchant.h"
+#include "movement.h"
 
 int main() {
     char key;
 
     intializePlayer();
 
+    clearScreen();
     printf("Welcome to the labyrinth, %s!\n", player.name);
-    printf("You have %d hp, %d armor, and %d damage.\n", player.hp, player.armor, player.damage);
+    printf("You have %d hp, %d armor, and %d damage.\n", player.hp, player.armor, player.weapon.damage);
     printf("\nFirst, here is the merchant. You can buy some items from him to help you in your quest.\n");
     printf("\nPress [1] to talk to the merchant:");
 
@@ -15,7 +16,7 @@ int main() {
     }
     clearScreen();
 
-    merchant(&player);
+    merchant();
 
     // Free the allocated memory for the player's name
     free(player.name);

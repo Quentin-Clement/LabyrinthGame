@@ -3,15 +3,16 @@
 
 #include "header.h"
 
-void buyItem(player_t *player, weapon_t *item)
+void buyItem(weapon_t *item)
 {
-    if (player->gold >= item->price)
+    if (player.gold >= item->price)
     {
-        player->gold -= item->price;
-        player->damage = item->damage;
+        player.gold -= item->price;
+        player.weapon.damage = item->damage;
+        clearScreen();
         printf("You bought the %s!\n", item->name);
-        printf("You now have %d gold.\n", player->gold);
-        printf("You now have %d damage.\n", player->damage);
+        printf("You now have %d gold.\n", player.gold);
+        printf("You now have %d damage.\n", player.weapon.damage);
     }
     else
     {
@@ -19,7 +20,7 @@ void buyItem(player_t *player, weapon_t *item)
     }
 }
 
-void handleWeapons(player_t *player)
+void handleWeapons()
 {
     printf("Here are the weapons:\n");
     // Display weapons...
@@ -38,19 +39,20 @@ void handleWeapons(player_t *player)
     switch (key)
     {
     case '1':
+        buyItem(&sword);
         clearScreen();
-        buyItem(player, &sword);
         break;
     case '2':
+        buyItem(&axe);
         clearScreen();
-        buyItem(player, &axe);
         break;
     case '3':
+        buyItem(&bow);
         clearScreen();
-        buyItem(player, &bow);
         break;
     case '4':
         // User wants to leave the shop
+        clearScreen();
         break;
     default:
         // Handle invalid input
@@ -58,15 +60,16 @@ void handleWeapons(player_t *player)
     }
 }
 
-void buyArmor(player_t *player, int armorPieces)
+void buyArmor(int armorPieces)
 {
-    if (player->gold >= armorPieces * 10)
+    if (player.gold >= armorPieces * 10)
     {
-        player->gold -= armorPieces * 10;
-        player->armor += armorPieces * 10;
+        player.gold -= armorPieces * 10;
+        player.armor += armorPieces * 10;
+        clearScreen();
         printf("You bought %d pieces of armor!\n", armorPieces);
-        printf("You now have %d gold.\n", player->gold);
-        printf("You now have %d armor points.\n", player->armor);
+        printf("You now have %d gold.\n", player.gold);
+        printf("You now have %d armor points.\n", player.armor);
     }
     else
     {
@@ -74,7 +77,7 @@ void buyArmor(player_t *player, int armorPieces)
     }
 }
 
-void handleArmor(player_t *player)
+void handleArmor()
 {
     printf("A piece of armor costs 10 golds and will give you 10 armor points. You can have a maximum of 100 armor points\n");
     printf("\nHow many pieces of armor do you want to buy?\n");
@@ -93,8 +96,8 @@ void handleArmor(player_t *player)
 
     if (armorPieces > 0)
     {
+        buyArmor(armorPieces);
         clearScreen();
-        buyArmor(player, armorPieces);
     }
     else
     {
@@ -102,17 +105,17 @@ void handleArmor(player_t *player)
     }
 }
 
-void merchant(player_t *player)
+void merchant()
 {
     int exit = 0;
 
-    printf("Welcome to my shop, %s!\n", player->name);
+    printf("Welcome to my shop, %s!\n", player.name);
     printf("I have some items that might help you in your quest.\n");
 
     do
     {
         
-        printf("You currently have %d gold.\n", player->gold);
+        printf("You currently have %d gold.\n", player.gold);
         printf("\nPress [1] to look at the weapons.\nPress [2] to look at the armor.\nPress [3] to look at the spells.\nPress [4] to leave the shop.\n");
 
         char key;
@@ -124,20 +127,20 @@ void merchant(player_t *player)
         switch (key)
         {
         case '1':
+            handleWeapons();
             clearScreen();
-            handleWeapons(player);
             break;
         case '2':
+            handleArmor();
             clearScreen();
-            handleArmor(player);
             break;
         // case '3':
         //     handleSpells(player);
         //     break;
         case '4':
-            clearScreen();
             printf("Alright, see you later!\n");
             exit = 1;
+            clearScreen();
             break;
         default:
             // Handle invalid input

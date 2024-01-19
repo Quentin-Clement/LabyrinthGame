@@ -2,23 +2,24 @@
 #include<stdio.h>
 
 #define MAX_ARMOR_PIECES 10
+#define SIZE 15
 
-int labyrinth[15][15] = {
-    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-    {1,1,1,1,1,1,0,0,0,1,1,1,1,1,1},
-    {1,1,1,1,1,1,0,0,0,1,1,1,1,1,1},
-    {1,1,1,1,1,1,0,0,0,1,1,1,1,1,1},
-    {1,1,1,1,1,1,1,2,1,1,1,1,1,1,1},
-    {1,1,1,1,1,1,1,2,1,1,1,1,1,1,1},
-    {1,0,0,0,1,1,1,2,1,1,1,0,0,0,1},
-    {1,0,0,0,2,2,2,2,2,2,2,0,0,0,1},
-    {1,0,0,0,1,1,1,2,1,1,1,0,0,0,1},
-    {1,1,1,1,1,1,1,2,1,1,1,1,1,1,1},
-    {1,1,1,1,1,1,1,2,1,1,1,1,1,1,1},
-    {1,1,1,1,1,1,0,0,0,1,1,1,1,1,1},
-    {1,1,1,1,1,1,0,0,0,1,1,1,1,1,1},
-    {1,1,1,1,1,1,0,0,0,1,1,1,1,1,1},
-    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1} 
+char labyrinth[SIZE][SIZE] = {
+    {'w','w','w','w','w','w','w','w','w','w','w','w','w','w','w'},
+    {'w','w','w','w','w','w','.','.','.','w','w','w','w','w','w'},
+    {'w','w','w','w','w','w','.','.','.','w','w','w','w','w','w'},
+    {'w','w','w','w','w','w','.','.','.','w','w','w','w','w','w'},
+    {'w','w','w','w','w','w','w','-','w','w','w','w','w','w','w'},
+    {'w','w','w','w','w','w','w','-','w','w','w','w','w','w','w'},
+    {'w','.','.','.','w','w','w','-','w','w','w','.','.','.','w'},
+    {'w','.','.','.','-','-','-','P','-','-','-','.','.','.','w'},
+    {'w','.','.','.','w','w','w','-','w','w','w','.','.','.','w'},
+    {'w','w','w','w','w','w','w','-','w','w','w','w','w','w','w'},
+    {'w','w','w','w','w','w','w','-','w','w','w','w','w','w','w'},
+    {'w','w','w','w','w','w','.','.','.','w','w','w','w','w','w'},
+    {'w','w','w','w','w','w','.','.','.','w','w','w','w','w','w'},
+    {'w','w','w','w','w','w','.','.','.','w','w','w','w','w','w'},
+    {'w','w','w','w','w','w','w','w','w','w','w','w','w','w','w'} 
 };
 
 enum direction {
@@ -44,17 +45,24 @@ typedef struct player {
     char name[20];
     int hp;
     int armor;
-    int damage;
     int gold;
     weapon_t weapon;
     spell_t spell;
 } player_t;
 
-player_t player = {"", 100, 0, 10, 100, {"", 0, 0}, {"", 0, 0}};
+typedef struct ennemy {
+    char name [20];
+    int hp;
+    int damage;
+} ennemy_t;
+
+player_t player = {"", 100, 0, 50, {"", 0, 0}, {"", 0, 0}};
 
 weapon_t sword = {"Sword", 25, 40};
 weapon_t axe = {"Axe", 50, 100};
 weapon_t bow = {"Bow", 100, 300};
+
+void drawLabyrinth();
 
 void intializePlayer()
 {
@@ -63,10 +71,12 @@ void intializePlayer()
 }
 
 void inventory(){
-    printf("%d hp %d armor %d damage %d gold\n\n", player.hp, player.armor, player.damage, player.gold);
+    printf("%d hp %d armor %d damage %d gold\n\n", player.hp, player.armor, player.weapon.damage, player.gold);
 }
+
 
 void clearScreen() {
     system("clear");
     inventory();
+    drawLabyrinth();
 }
