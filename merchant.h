@@ -1,6 +1,3 @@
-#include<stdlib.h>
-#include <stdio.h>
-
 #include "header.h"
 
 void buyItem(weapon_t *item)
@@ -116,7 +113,7 @@ void merchant()
     {
         
         printf("You currently have %d gold.\n", player.gold);
-        printf("\nPress [1] to look at the weapons.\nPress [2] to look at the armor.\nPress [3] to look at the spells.\nPress [4] to leave the shop.\n");
+        printf("\nPress [1] to look at the weapons.\nPress [2] to look at the armor.\nPress [4] to leave the shop.\n");
 
         char key;
         do
@@ -134,9 +131,6 @@ void merchant()
             handleArmor();
             clearScreen();
             break;
-        // case '3':
-        //     handleSpells(player);
-        //     break;
         case '4':
             printf("Alright, see you later!\n");
             exit = 1;
